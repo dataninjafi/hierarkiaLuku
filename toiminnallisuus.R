@@ -40,7 +40,7 @@ vieraatMerkit <- function(df){
 }
 
 duplikaattiNimi <- function(df){
-    rbind(df,df) %>% 
+    df %>% 
         t %>% 
         as.vector() %>% 
         .[!is.na(.)] %>% 

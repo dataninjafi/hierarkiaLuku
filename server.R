@@ -1,6 +1,7 @@
 library(shiny)
 library(readxl)
 library(dplyr)
+library(purrr)
 library(xlsx)
 source("toiminnallisuus.R")
 
@@ -32,7 +33,7 @@ shinyServer(function(input, output) {
                       tyhjatRivit(hierarkia), "kpl."),
                 paste("Uudessa hierarkiassa",
                       vieraatMerkit(hierarkia)),
-                paste("Hierarkiasta löytyvä duplikaattinimet:", duplikaattiNimi(hierarkia))
+                paste("Uuden hierarkian duplikaattinimet:", duplikaattiNimi(hierarkia))
             ))
 
         if (!is.null(inFile2) & !is.null(inFile3)) {
@@ -45,13 +46,13 @@ shinyServer(function(input, output) {
                         paste(inFile3$datapath, ext3, sep="."))
         
             
-            avaimet <- read_excel(paste(inFile2$datapath, ext2, sep="."), 
+            avaimet <- read_excel(paste(inFile3$datapath, ext2, sep="."), 
                                   col_names = F) %>%
                 select(1:2)
-            hierarkiaVanha <- read_excel(paste(inFile3$datapath, ext3, sep="."),
+            hierarkiaVanha <- read_excel(paste(inFile2$datapath, ext3, sep="."),
                                          col_names = F)
             vanha <- data.frame(palaute = c(
-                paste("Vanhassa hierarkiassa duplikaatteja:",
+                paste("Vanhan hierarkian duplikaattinimet:",
                       duplikaattiNimi(hierarkiaVanha)),
                 paste("Uudet avaimet:",
                       eiLoydyVastinetta(hierarkia, avaimet[[1]])),
